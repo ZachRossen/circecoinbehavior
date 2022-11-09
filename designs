@@ -1,0 +1,11 @@
+1. if the block.number%3 == 2 then add .0001 of cryptocurrecy to the transaction (mint the reciever .0001)
+2. create a new string depending on difficulty of block
+  if difficulty is = 23, then make another transaction with message data being "circe is the best dog"
+3. mint currency to transactions mined at a certain time
+  if block.timestamp = 13:06, mint .0000001 of currency to the transactor 
+  
+  
+  
+ALSO: crypto i sent to someone in the class
+https://goerli.etherscan.io/tx/0x23ea3f70f7bdc26576d2b75d0da37a68b3d3898bada18a2b411e4fc20737a2f5
+  
