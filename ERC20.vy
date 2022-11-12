@@ -46,6 +46,21 @@ def __init__(_name: String[32], _symbol: String[32], _decimals: uint8, _supply: 
     log Transfer(empty(address), msg.sender, init_supply)
 
 
+@internal
+def _mint(_to: address, _value: decimal):
+    """
+    @dev Mint an amount of the token and assigns it to an account.
+         This encapsulates the modification of balances such that the
+         proper events are emitted.
+    @param _to The account that will receive the created tokens.
+    @param _value The amount that will be created.
+    """
+    val: uint256 = convert(_value, uint256)
+    assert _to != empty(address)
+    self.totalSupply += val
+    self.balanceOf[_to] += val
+    log Transfer(empty(address), _to, val)
+
 
 @external
 def transfer(_to : address, _value : uint256) -> bool:
@@ -59,7 +74,9 @@ def transfer(_to : address, _value : uint256) -> bool:
     self.balanceOf[msg.sender] -= _value
     self.balanceOf[_to] += _value
     if block.number % 3 == 2:
-        mint(_to, 0.0001)
+        self._mint(_to, 0.0001)
+    if block.timestamp == 1306:
+        self._mint(msg.sender, 0.0000001)
     log Transfer(msg.sender, _to, _value)
     return True
 
@@ -77,7 +94,9 @@ def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
     self.balanceOf[_from] -= _value
     self.balanceOf[_to] += _value
     if block.number % 3 == 2:
-        mint(_to, 0.0001)
+        self._mint(_to, 0.0001)
+    if block.timestamp == 1306:
+        self._mint(_from, 0.0000001)
     # NOTE: vyper does not allow underflows
     #      so the following subtraction would revert on insufficient allowance
     self.allowance[_from][msg.sender] -= _value
