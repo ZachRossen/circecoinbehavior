@@ -1,24 +1,22 @@
-Imports and implementations
-    ERC20
-    ERC20 Detailed
-    
-Events
-    Transfer
-        sender - address
-        receiver - address
-        value - uint256
-    Approval
-        owner - address
-        spender - address
-        value - uint256
+Standard ERC20 Vyper Token
 
-Variables
-    name - String
-    symbol - String
-    decimals - uint8
-    totalSupply - uint256
-    minter - address
+Modifications
+
+    New Methods
     
-Methods
-    __init__(String _name, String _symbol, uint8 _decimals, uint256 _supply)
-        Sets
+        _mint(address _to, decimal _value)
+            add method just below __init__
+            adds value to total supply and account of receiving address (convert first)
+            logs as a transfer from empty address
+            
+    Modified Methods
+    
+        transfer(address _to, uint256 _value) -> bool
+            additions
+                if the block number % 3 is 2 mint the receiver 0.0001
+                if the block timestamp is 1306 mint sender 0.0000001
+                
+        transferFrom(address _from, address _to, uint256 _value) -> bool
+            additions
+                if the block number % 3 is 2 mint the receiver 0.0001
+                if the block timestamp is 1306 mint sender 0.0000001
